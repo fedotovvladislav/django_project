@@ -1,7 +1,26 @@
-<html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Доска объявлений</title>
+</head>
+<body>
 <ul>
-    <li>Мастер на час</li>
-    <li>Выведение из запоя</li>
-    <li>Услуги экскаватора-погрузчика, гидромолота, ямобура</li>
+    {% for advertisement in advertisements %}
+        <li>{{advertisement}}</li>
+    {% endfor %}
+    <span>Число вызовов: {{count}}</span>
 </ul>
+
+{{message}}
+
+<form action="{% url 'advertisement' %}" method="POST">
+    {% csrf_token %}
+    <label>Имя</label>
+    <Input name="Имя"></Input>
+    <label>Фамилия</label>
+    <Input name="Фамилия"></Input>
+    <input type="submit" value="Создать учетную запись"">
+</form>
+</body>
 </html>

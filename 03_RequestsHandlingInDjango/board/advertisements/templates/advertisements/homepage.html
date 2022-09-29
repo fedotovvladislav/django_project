@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+</head>
+<body>
+    <h2>Выберите категорию</h2>
+    <ul>
+        {% for category, link in categories.items %}
+            <li>
+                <a href="{{link}}">{{category}}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <h2>Выберите регион</h2>
+    <ul>
+        {% for region in regions %}
+        <li>
+            <a href="">{{ region }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+<h1>Найти объявление</h1>
+<form action="{% url 'advertisement' %}" method="">
+    <label>Название объявления</label>
+    <Input name="Название объявления"></Input>
+    <input type="submit" value="НАЙТИ">
+</form>
+</body>
+</html>
