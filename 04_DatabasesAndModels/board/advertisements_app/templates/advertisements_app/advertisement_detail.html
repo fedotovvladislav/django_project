@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{advertisement.title}}</title>
+</head>
+<body>
+    <h1>
+        {{advertisement.title}}
+    </h1>
+    <h2>
+        {% if advertisement.adv_type.adv_type == 'Работа'%}
+            Зарплата
+        {% else %}
+            Цена
+        {% endif %}
+        {{advertisement.price}}
+    </h2>
+    <p>
+        Описание: {{advertisement.description}}
+    </p>
+    <span>{{advertisement.adv_type.adv_type}}, {{advertisement.category.category}}</span>
+    <div>
+        <adress>
+            <a href="{{advertisement.author.phone}}">{{advertisement.author.phone}}</a>
+            <a href="{{advertisement.author.email}}">{{advertisement.author.email}}</a>
+            <p>{{advertisement.author.name}}</p>
+        </adress>
+    </div>
+    <span>
+        Количество просмотров: {{advertisement.count_views}}
+    </span>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Объявления</title>
+</head>
+<body>
+  <h1>Бесплатные объявления</h1>
+  {% if advertisements_list %}
+  <table>
+    <tr>
+      <th>
+        Заголовок
+      </th>
+      <th>
+        Цена
+      </th>
+      <th>
+        Категория
+      </th>
+    </tr>
+    {% for advertisement in advertisements_list %}
+    <tr>
+      <th>
+        <a href="{{advertisement.id}}">{{advertisement.title}}</a>
+      </th>
+      <th>
+        {{advertisement.price}}
+      </th>
+      <th>
+        {{advertisement.category}}
+      </th>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+    <p>Пока объявлений нет</p>
+  {% endif %}
+
+</body>
+</html>
