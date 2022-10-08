@@ -1,4 +1,3 @@
-from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
@@ -43,28 +42,11 @@ class NewsDetailView(DetailView):
         return context
 
     def post(self, request, **kwargs):
-        if request.user.is_authenticated:
-            form = {
-                'user_name': request.user.username,
-                'comment': request.POST['comment']
-            }
-            comments_form = forms.CommentsForm(form)
-        else:
-            comments_form = forms.CommentsForm(request.POST)
+        comments_form = forms.CommentsForm(request.POST)
         if comments_form.is_valid():
-            if request.user.is_authenticated:
-                models.CommentsModel.objects.create(news=self.get_object(),
-                                                    user=request.user,
-                                                    **comments_form.cleaned_data)
-            else:
-                models.CommentsModel.objects.create(news=self.get_object(),
-                                                    **comments_form.cleaned_data)
+            models.CommentsModel.objects.create(news=self.get_object(),
+                                                **comments_form.cleaned_data)
         return HttpResponseRedirect(f'/all_news/{self.get_object().id}')
 
 
-class Login(LoginView):
-    template_name = 'app_news/login.html'
 
-
-class Logout(LogoutView):
-    next_page = '/all_news'

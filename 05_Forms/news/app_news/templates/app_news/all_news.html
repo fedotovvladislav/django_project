@@ -6,17 +6,6 @@
 </head>
 <body>
    <h1>Все новости</h1>
-   {% if request.user.is_authenticated %}
-        <h2>Привет {{request.user.username}}</h2>
-        <button>
-            <a href="{% url 'logout' %}">Выйти из аккаунта</a>
-        </button>
-   {% else %}
-        <h2>Привет, анонимный пользователь</h2>
-        <button>
-            <a href="{% url 'login' %}">Войти</a>
-        </button>
-   {% endif %}
     {% if news_list %}
     <table>
         <tr>
@@ -47,5 +36,6 @@
    <form action="{% url 'create_news' %}">
        <button type="submit">Добавить новость</button>
    </form>
+
 </body>
 </html>

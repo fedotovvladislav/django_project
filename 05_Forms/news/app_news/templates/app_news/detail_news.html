@@ -16,13 +16,7 @@
     <div>
         <form action="{% url 'detail_view' detail_news.id %}" method="post">
             {% csrf_token %}
-            {% if request.user.is_authenticated %}
-                <h6>{{request.user.username}}</h6>
-                    {{comments_form.comment}}
-            {% else %}
-                {{comments_form.as_p}}
-            {% endif %}
-
+            {{comments_form.as_p}}
             <button type="submit">Добавить комментарий</button>
         </form>
         {% if comments %}
@@ -30,9 +24,6 @@
             {% for comment in comments %}
             <h5>
                 {{comment.user_name}}
-                {% if comment.user == None %}
-                    (Анонимный пользователь)
-                {% endif %}
             </h5>
             <p>
                 {{comment.comment}}
