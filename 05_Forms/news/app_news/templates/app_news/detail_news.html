@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{detail_news.name}}</title>
+</head>
+<body>
+    <h1>
+        {{detail_news.name}}
+    </h1>
+    <div>
+        <p>
+            {{detail_news.description}}
+        </p>
+    </div>
+    <div>
+        <form action="{% url 'detail_view' detail_news.id %}" method="post">
+            {% csrf_token %}
+            {{comments_form.as_p}}
+            <button type="submit">Добавить комментарий</button>
+        </form>
+        {% if comments %}
+        <div>
+            {% for comment in comments %}
+            <h5>
+                {{comment.user_name}}
+            </h5>
+            <p>
+                {{comment.comment}}
+            </p>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>Комментариев пока нет</p>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+   <h1>Все новости</h1>
+    {% if news_list %}
+    <table>
+        <tr>
+            <th>
+                Заголовок
+            </th>
+            <th>
+                Дата публикации
+            </th>
+        </tr>
+        {% for news in news_list %}
+            {% if news.active %}
+        <tr>
+            <th>
+                <a href="{{news.id}}">{{news.name}}</a>
+            </th>
+            <th>
+                {{news.date_create}}
+            </th>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>Пока новостей нет</p>
+    {% endif %}
+
+   <form action="{% url 'create_news' %}">
+       <button type="submit">Добавить новость</button>
+   </form>
+
+</body>
+</html>
