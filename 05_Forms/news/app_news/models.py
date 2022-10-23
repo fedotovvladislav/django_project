@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinLengthValidator
+from django.contrib.auth.models import User
 
 
 class NewsModel(models.Model):
@@ -22,8 +23,12 @@ class NewsModel(models.Model):
 
 
 class CommentsModel(models.Model):
-    user_name = models.CharField(validators=[MinLengthValidator(2)], max_length=20, verbose_name='Имя пользователя')
-    comment = models.TextField(validators=[MinLengthValidator(10)], max_length=3000, verbose_name='Текст комментария')
+    user_name = models.CharField(validators=[MinLengthValidator(2)], max_length=20,
+                                 verbose_name='Имя пользователя')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True,
+                             related_name='comments', verbose_name='Авторизация')
+    comment = models.TextField(validators=[MinLengthValidator(10)], max_length=3000,
+                               verbose_name='Текст комментария')
     news = models.ForeignKey('NewsModel', on_delete=models.CASCADE, null=False,
                              related_name='comments', verbose_name='Новость')
 
