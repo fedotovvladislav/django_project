@@ -58,6 +58,19 @@ class NewsListView(ListView):
         return context
 
 
+# class TagListView(ListView):
+#     template_name = 'users/all_news.html'
+#     context_object_name = 'news_list'
+#
+#     def get_queryset(self):
+#         return models.NewsModel.objects.filter(tags__slug=self.kwargs.get("slug")).all()
+#
+#     def get_context_data(self, **kwargs):
+#         context = super(TagListView, self).get_context_data(**kwargs)
+#         context['title'] = 'Новости по тегу'
+#         return context
+
+
 class NewsDetailView(DetailView):
     model = models.NewsModel
     template_name = 'users/detail_news.html'
@@ -133,7 +146,6 @@ class CreateNews(PermissionRequiredMixin, View):
             return HttpResponseRedirect('/all_news')
 
         return render(request, 'users/create_news.html', context={'news_form': news_form})
-
 
 class NewsUpdate(UpdateView):
     model = models.NewsModel

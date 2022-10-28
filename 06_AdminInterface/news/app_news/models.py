@@ -15,7 +15,7 @@ class NewsModel(models.Model):
     date_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     date_edit = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
     status = models.BooleanField(max_length=1, choices=STATUS_CHOICES,
-                                 default=True, verbose_name='Статус')
+                                 default=False, verbose_name='Статус')
 
     class Meta:
         ordering = ['-date_create']
