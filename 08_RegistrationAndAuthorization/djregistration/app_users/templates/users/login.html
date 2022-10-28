@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход в аккаунт</title>
+</head>
+<body>
+    {% if request.user.is_authenticated %}
+        <p>Вы уже авторизованы</p>
+        <button>
+            <a href="{% url 'logout' %}">Выйти</a>
+        </button>
+    {% else %}
+        <h1>Войти в аккаунт</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Войти</button>
+        </form>
+    {% endif %}
+</body>
+</html>

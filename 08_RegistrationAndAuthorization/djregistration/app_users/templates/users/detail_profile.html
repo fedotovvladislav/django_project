@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль пользователя</title>
+</head>
+<body>
+    <h1>Профиль пользователя {{profile_detail.user.username}}</h1>
+    <h3>Номер телефона: {{profile_detail.phone}}</h3>
+    <h3>Город: {{profile_detail.city}}</h3>
+    <h3>E-mail: {{profile_detail.email}}</h3>
+    <h3>
+        Статус верификации:
+        {% if profile_detail.user.is_staff == 1 %}
+            Верифицирован
+        {% else %}
+            Не верифицирован
+        {% endif %}
+    </h3>
+</body>
+</html>
