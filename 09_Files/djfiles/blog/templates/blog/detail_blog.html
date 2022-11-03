@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Блог {{detail_blog.user.username}}</title>
+</head>
+<body>
+    <a href="{% url 'blog_list' %}">Назад к записям блога</a>
+    <div>
+        <a href="{% url 'view_profile' detail_blog.user.id %}">{{detail_blog.user.username}}</a>
+        <a href="{% url 'view_profile' detail_blog.user.id %}">{{detail_blog.user.avatar_tag}}</a>
+        <p>Дата записи блога: {{detail_blog.date_create}}</p>
+        <p>{{detail_blog.description}}</p>
+        {% if photos %}
+            {% for photo in photos %}
+                {{photo.file_tag}}
+            {% endfor %}
+        {% endif %}
+    </div>
+</body>
+</html>

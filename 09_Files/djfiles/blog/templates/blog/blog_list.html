@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список записей блога</title>
+</head>
+<body>
+    <h1>Все записи блога</h1>
+    {% if request.user.is_authenticated %}
+        <h2>Привет {{request.user.username}}</h2>
+        <button>
+            <a href="{% url 'logout' %}">Выйти из аккаунта</a>
+        </button>
+        <button>
+            <a href="{% url 'create_blog' %}">Добавить запись</a>
+        </button>
+        <button>
+            <a href="{% url 'upload_blog' %}">Добавить несколько записей</a>
+        </button>
+    {% else %}
+        <h2>Привет, анонимный пользователь</h2>
+        <button>
+            <a href="{% url 'login' %}">Войти</a>
+        </button>
+    {% endif %}
+    {% if blog_list %}
+    <table>
+        {% for blog in blog_list %}
+            <tr>
+                <th>
+                    <a href="{% url 'view_profile' blog.user.id %}">{{blog.user.username}}</a>
+                    <a href="{% url 'view_profile' blog.user.id %}">{{blog.user.avatar_tag}}</a>
+                </th>
+                <th>
+                    <a href="{% url 'detail_view' blog.id %}">{{blog.summary_description}}</a>
+                </th>
+                <th>
+                    {{blog.date_create}}
+                </th>
+            </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>Пока новостей нет</p>
+    {% endif %}
+</body>
+</html>

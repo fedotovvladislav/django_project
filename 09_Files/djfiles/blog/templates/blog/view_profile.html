@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Просмотр профиля</title>
+</head>
+<body>
+    <h2>Информация о пользователе {{profile.username}}</h2>
+    <p>Имя: {{profile.first_name}}</p>
+    <p>Фамилия: {{profile.last_name}}</p>
+    <p>Email: {{profile.email}}</p>
+    <p>Телефон: {{profile.phone}}</p>
+    <p>{{profile.avatar_tag}}</p>
+    <button>
+        <a href="{% url 'logout' %}">Выйти</a>
+    </button>
+</body>
+</html>
