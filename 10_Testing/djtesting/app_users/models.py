@@ -2,11 +2,14 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-class Product:
+class Product(models.Model):
+    class Meta:
+        ordering = ["pk"]
+
     name = models.CharField(max_length=100)
     description = models.TextField(null=False, blank=True)
     price = models.DecimalField(default=0, max_digits=8, decimal_places=2)
-    discount = models.IntegerField(default=0, blank=True)
+    discount = models.SmallIntegerField(default=0, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     archived = models.BooleanField(default=False)
 
