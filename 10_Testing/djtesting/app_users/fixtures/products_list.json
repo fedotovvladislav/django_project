@@ -3,23 +3,23 @@
     "model": "app_users.product",
     "pk": 1,
     "fields": {
-      "name": "Smartphone",
-      "description": "Best smarthone",
+      "name": "Laptop",
+      "description": "Best Laptop",
       "price": "10000.00",
       "discount": 10,
-      "created_at": "2023-06-11T09:49:43.711Z",
-      "archived": true
+      "created_at": "2023-06-13T10:59:09.668Z",
+      "archived": false
     }
   },
   {
     "model": "app_users.product",
     "pk": 2,
     "fields": {
-      "name": "Laptop",
-      "description": "Best Laptop",
+      "name": "Smartphone",
+      "description": "Best Smartphone",
       "price": "20000.00",
       "discount": 15,
-      "created_at": "2023-06-11T09:49:43.751Z",
+      "created_at": "2023-06-13T10:59:09.704Z",
       "archived": false
     }
   },
@@ -27,12 +27,12 @@
     "model": "app_users.product",
     "pk": 3,
     "fields": {
-      "name": "Notebook",
-      "description": "Best Notebook",
+      "name": "TV",
+      "description": "Best TV",
       "price": "30000.00",
-      "discount": 5,
-      "created_at": "2023-06-11T09:49:43.788Z",
-      "archived": true
+      "discount": 30,
+      "created_at": "2023-06-13T10:59:09.741Z",
+      "archived": false
     }
   }
 ]
