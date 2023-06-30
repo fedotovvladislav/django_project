@@ -42,9 +42,11 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'django_filters',
+    'taggit',
 
     'shopapp.apps.ShopappConfig',
     'myauth.apps.MyauthConfig',
+    'blogapp.apps.BlogappConfig',
 ]
 
 MIDDLEWARE = [
