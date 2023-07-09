@@ -21,3 +21,22 @@ class ExportAsCSVMixin:
         return response
 
     export_as_csv.short_description = "Export as CSV"
+
+
+class ExportAsJSONMixin:
+
+    def export_as_json(self, request: HttpRequest, queryset: QuerySet):
+        meta: Options = self.model._meta
+        field_names = [field.name for field in meta.fields]
+
+        response = HttpResponse(content_type="application/json")
+        response["Content-Disposition"] = f"attachment; filename={meta}-export.json"
+
+        data = [
+            {field: getattr(obj, field) for field in field_names}
+            for obj in queryset
+        ]
+
+        return response
+
+    export_as_json.short_description = "Export as JSON"
