@@ -1,0 +1,38 @@
+{% extends 'shopapp/base.html' %}
+{% load cache %}
+
+
+{% block title %}
+ Orders list
+{% endblock %}
+
+{% block body %}
+    <h1> The user {{ owner.username }} has completed the following orders:  </h1>
+    <div>
+        {% cache 300 user_orders owner.id %}
+            {% for order in orders %}
+                <div>
+                    <ol>
+                        <li>
+                            Address: {{ order.delivery_address }}
+                        </li>
+                        <li>
+                            Date created: {{ order.created_at }}
+                        </li>
+                        <li>Products list:
+                            <ol>
+                                {% for product in order.products.all %}
+                                <li>
+                                    {{product.name}}
+                                </li>
+                                {% endfor %}
+                            </ol>
+                        </li>
+                    </ol>
+                </div>
+            {% empty %}
+                <p>No orders</p>
+            {% endfor %}
+        {% endcache %}
+    </div>
+{% endblock %}

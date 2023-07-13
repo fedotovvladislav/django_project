@@ -1,6 +1,7 @@
 from timeit import default_timer
 
 from django.contrib.syndication.views import Feed
+from django.core.cache import cache
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, reverse
 from django.urls import reverse_lazy
@@ -13,7 +14,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .forms import ProductForm
 from .models import Product, Order, ProductImage
-from .serializers import ProductSerializer
+from .serializers import ProductSerializer, OrderSerializer
+from .auxiliary_func import user_comparison
 
 
 class ProductViewSet(ModelViewSet):
@@ -55,14 +57,12 @@ class ShopIndexView(View):
 
 class ProductDetailsView(DetailView):
     template_name = "shopapp/products-details.html"
-    # model = Product
     queryset = Product.objects.prefetch_related("images")
     context_object_name = "product"
 
 
 class ProductsListView(ListView):
     template_name = "shopapp/products-list.html"
-    # model = Product
     context_object_name = "products"
     queryset = Product.objects.filter(archived=False)
 
@@ -75,7 +75,6 @@ class ProductCreateView(CreateView):
 
 class ProductUpdateView(UpdateView):
     model = Product
-    # fields = "name", "price", "description", "discount", "preview"
     template_name_suffix = "_update_form"
     form_class = ProductForm
 
@@ -152,3 +151,68 @@ class LatestProductsFeed(Feed):
 
     def item_description(self, item):
         return item.description[:200]
+
+
+class UserOrdersListView(LoginRequiredMixin, ListView):
+    template_name = "shopapp/user-orders-list.html"
+    context_object_name = "orders"
+
+    def __init__(self):
+        super().__init__()
+        self.owner = None
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["owner"] = self.owner
+        return context
+
+    def get_queryset(self):
+        self.owner = user_comparison(self.request.user, self.kwargs["pk"])
+        queryset = Order.objects.filter(user=self.owner).prefetch_related("products").order_by('-created_at')
+        return queryset
+
+
+class UserOrderExportView(View):
+
+    def get(self, request, pk: int=None) -> JsonResponse:
+        owner = user_comparison(self.request.user, pk)
+        cache_key = "order_data_export"
+        data = cache.get(cache_key)
+        if data is None:
+            orders_data = OrderSerializer(
+                Order.objects.filter(user=owner).prefetch_related("products").order_by('id').defer("products__price"),
+                many=True,
+                context={"request": self.request}
+            )
+            data = [
+                {
+                    "pk": order["pk"],
+                    "created_at": order["created_at"],
+                    "delivery_address": order["delivery_address"],
+                    "promocode": order["promocode"],
+                    "products": [
+                        {
+                            "pk": product["pk"],
+                            "name": product["name"],
+                            "price": product["price"],
+                            "discount": product["discount"],
+                            "description": product["description"],
+                        } for product in order["products"]
+                    ]
+                }
+                for order in orders_data.data
+            ]
+            cache.set(cache_key, data, 300)
+
+        user_info = {
+            "user": {
+                "pk": owner.id,
+                "username": owner.username,
+                "email": owner.email,
+            }
+        }
+
+        for order in data:
+            order.update(user_info)
+
+        return JsonResponse({"orders": data})
