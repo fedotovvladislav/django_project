@@ -11,11 +11,13 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import logging.config
 from os import getenv
+
 from pathlib import Path
 
 from django.urls import reverse_lazy
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
+
 
 sentry_sdk.init(
     dsn="https://083f20bd0b9e4cf6adc0048275b0bca4@o4505490046582784.ingest.sentry.io/4505490075811840",
@@ -36,10 +38,10 @@ DATABASE_DIR.mkdir(exist_ok=True)
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY =  getenv("DJANGO_SECRET_KEY")
+SECRET_KEY = getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = getenv("DJANGO_DEBUG", "0") == 1
+DEBUG = getenv("DJANGO_DEBUG", "0") == "1"
 
 ALLOWED_HOSTS = [
     '0.0.0.0',
